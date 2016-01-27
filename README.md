@@ -61,6 +61,7 @@ something to S3 on each execution cycle you could rack up the bill!
 * [Using AWS Simple Notification System (SNS) to Invoke a Lambda Function](#using-aws-simple-notification-system-sns-to-invoke-a-lambda-function)
 * [Testing Lambda Functions](#testing-lambda-functions)
 * [Deploying Lambda Functions using Gulp](#deploying-lambda-functions-using -gulp)
+* [Continuous Integration using CodeShip]()
 
 ### 'HELLO WORLD!' Example (inline)
 
@@ -457,6 +458,18 @@ NB: Using the JSON Messsage Generator option it is possible to format messages d
   Gulp can be used to automate the packaging and deployment of Lambda functions.
 
   More info on setting up gulp with aws-lambda can be found [here](https://medium.com/@AdamRNeary/a-gulp-workflow-for-amazon-lambda-61c2afd723b6#.4rfsrda09)
+
+
+### Continuous Integration using codeship
+
+- Create project in code ship by linking to a github repo
+- Create a Role for codeship in AWS and get access key and access secret key
+- Add these as environment variables to the project on codeship
+- Add a custom script deployment to your project on Codeship in the deployment section
+- Add a codeship-services.yml and codeship-steps.yml file to your project folder
+- Get your amazon secret and access keys and encrypt them locally
+-
+
 
 ## Further Reading
 
