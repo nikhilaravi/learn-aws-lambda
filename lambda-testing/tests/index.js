@@ -1,3 +1,5 @@
+'use strict';
+
 var context = require('aws-lambda-mock-context');
 var test = require('tape');
 
@@ -8,9 +10,9 @@ var ctx = context();
 // text event object
 var testEvent = {
   key1: 'name'
-}
+};
 
-var response = null
+var response = null;
 var error = null;
 
 test("Capture response", t => {
