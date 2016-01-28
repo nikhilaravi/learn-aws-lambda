@@ -54,6 +54,7 @@ gulp.task('zip', function () {
  */
 gulp.task('upload', function() {
   AWS.config.region = region;
+  console.log("REGION", region);
   var lambda = new AWS.Lambda();
   var zipFile = './' + outputName;
 
