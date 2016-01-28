@@ -111,7 +111,7 @@ gulp.task('test-invoke', function() {
     FunctionName: functionName,
     InvocationType: 'Event',
     LogType: 'Tail',
-    Payload: testEvent
+    Payload: JSON.stringify(testEvent)
   };
 
   lambda.getFunction({ FunctionName: functionName }, function(err, data) {
