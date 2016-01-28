@@ -83,13 +83,14 @@ gulp.task('upload', function() {
     console.log("UPDATING FUNCTION!!!")
 
     getZipFile(function (data) {
+
       var params = {
         FunctionName: functionName,
         ZipFile: data
       };
 
       lambda.updateFunctionCode(params, function(err, data) {
-        if (err) console.error(err);
+        if (err) console.log("FUNCTION NOT UPDATED", err);
         else console.log('Function ' + functionName + ' has been updated.');
       });
     });
@@ -99,6 +100,7 @@ gulp.task('upload', function() {
     fs.readFile(zipFile, function (err, data) {
           if (err) console.log(err);
           else {
+            console.log("DATA", data);
             next(data);
           }
     });
