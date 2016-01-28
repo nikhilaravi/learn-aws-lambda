@@ -4,7 +4,7 @@ var zip         = require('gulp-zip');
 var install     = require('gulp-install');
 var runSequence = require('run-sequence');
 var packageJson = require('./package.json');
-var region      = 'eu-west-1';
+var region      = 'eu-east-1';
 var fs          = require('fs');
 var testEvent   = require('./lambda-testing/tests/data.json') || {};
 
@@ -54,7 +54,6 @@ gulp.task('zip', function () {
  */
 gulp.task('upload', function() {
   AWS.config.region = region;
-  console.log("REGION", region);
   var lambda = new AWS.Lambda();
   var zipFile = './' + outputName;
 
