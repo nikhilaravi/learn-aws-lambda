@@ -113,7 +113,7 @@ gulp.task('test-invoke', function() {
   var lambda = new AWS.Lambda();
 
   var params = {
-    FunctionName: 'STRING_VALUE', /* required */
+    FunctionName: functionName,
     InvocationType: 'Event',
     LogType: 'Tail',
     Payload: testEvent
@@ -124,10 +124,12 @@ gulp.task('test-invoke', function() {
     else invokeFunction();
   });
 
-  lamda.invokeFunction(params, function(err, data) {
-    if (err) console.log(err, err.stack);
-    else console.log(data);
-  })
+  function invokeFunction() {
+    lamda.invokeFunction(params, function(err, data) {
+      if (err) console.log(err, err.stack);
+      else console.log(data);
+    })
+  }
 })
 
 gulp.task('deploy', function (callback) {
