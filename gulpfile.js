@@ -14,6 +14,7 @@ var packageJson = require('./package.json');
 var region      = 'us-east-1';
 var functionName = 'LambdaTest';
 var outputName = functionName + '.zip';
+
 var IAMRole = 'arn:aws:iam::685330956565:role/lambda_basic_execution';
 var filesToPack = ['./lambda-testing/functions/LambdaTest.js'];
 
@@ -79,6 +80,7 @@ gulp.task('upload', function() {
   }
 
   function updateFunction () {
+    console.log("UPDATING FUNCTION!!!")
 
     getZipFile(function (data) {
       var params = {
