@@ -1,24 +1,19 @@
+//npm modules
 var AWS         = require('aws-sdk');
 var gulp        = require('gulp');
 var zip         = require('gulp-zip');
 var install     = require('gulp-install');
 var runSequence = require('run-sequence');
-var packageJson = require('./package.json');
-var region      = 'us-east-1';
 var fs          = require('fs');
+
+//local files
 var testEvent   = require('./lambda-testing/tests/data.json') || {};
+var packageJson = require('./package.json');
 
-// var functionName = packageJson.name + '-v' + getMajorVersion(packageJson.version);
-
-// function getMajorVersion (version) {
-//   return version.substring(0, version.indexOf('.'));
-// }
-// var outputName = packageJson.name + '.zip';
-
+// constants
+var region      = 'us-east-1';
 var functionName = 'LambdaTest';
-
 var outputName = functionName + '.zip';
-
 var IAMRole = 'arn:aws:iam::685330956565:role/lambda_basic_execution';
 var filesToPack = ['./lambda-testing/functions/LambdaTest.js'];
 
@@ -125,7 +120,7 @@ gulp.task('test-invoke', function() {
   });
 
   function invokeFunction() {
-    lambda.invokeFunction(params, function(err, data) {
+    lambda.invoke(params, function(err, data) {
       if (err) console.log(err, err.stack);
       else console.log(data);
     })
