@@ -4,7 +4,7 @@ var zip         = require('gulp-zip');
 var install     = require('gulp-install');
 var runSequence = require('run-sequence');
 var packageJson = require('./package.json');
-var region      = 'eu-east-1';
+var region      = 'us-east-1';
 var fs          = require('fs');
 var testEvent   = require('./lambda-testing/tests/data.json') || {};
 
