@@ -129,4 +129,12 @@ gulp.task('test-invoke', function() {
   }
 })
 
-gulp.task('deploy', ['js', 'node-mods', 'zip', 'upload', 'test-invoke']);
+gulp.task('deploy', function (callback) {
+  return runSequence(
+    ['js', 'node-mods'],
+    ['zip'],
+    ['upload'],
+    ['test-invoke'],
+    callback
+  );
+});
