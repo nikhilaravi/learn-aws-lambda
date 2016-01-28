@@ -19,7 +19,7 @@ var functionName = 'LambdaTest';
 
 var outputName = functionName + '.zip';
 
-var IAMRole = 'arn:aws:lambda:us-east-1:685330956565:role/lambda_basic_execution';
+var IAMRole = 'arn:aws:iam::685330956565:role/lambda_basic_execution';
 var filesToPack = ['./lambda-testing/functions/LambdaTest.js'];
 
 /**
