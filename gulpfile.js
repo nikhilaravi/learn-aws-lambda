@@ -22,7 +22,7 @@ var filesToPack = ['./lambda-testing/functions/LambdaTest.js'];
  * Adds the project files to the archive folder.
  */
 gulp.task('js', function () {
-  return gulp.src(filesToPack, {base: './'})
+  return gulp.src(filesToPack)
     .pipe(gulp.dest('dist/'));
 });
 
@@ -40,7 +40,7 @@ gulp.task('node-mods', function () {
  * Create an archive based on the dest folder.
  */
 gulp.task('zip', function () {
-  return gulp.src(['dist/**/*'])
+  return gulp.src(['dist/**/**'], {base: 'dist'})
     .pipe(zip(outputName))
     .pipe(gulp.dest('./'));
 });
@@ -66,12 +66,13 @@ gulp.task('upload', function() {
           ZipFile: data
         },
         FunctionName: functionName,
-        Handler: 'index.handler',
+        Handler: 'LambdaTest.handler',
         Role: IAMRole,
         Runtime: 'nodejs'
       };
 
       lambda.createFunction (params, function (err, data) {
+        console.log("CREATE CALLED");
         if (err) console.error(err);
         else console.log('Function ' + functionName + ' has been created.');
       });
@@ -134,7 +135,6 @@ gulp.task('deploy', function (callback) {
     ['js', 'node-mods'],
     ['zip'],
     ['upload'],
-    ['test-invoke'],
     callback
   );
 });
