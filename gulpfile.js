@@ -80,8 +80,6 @@ gulp.task('upload', function() {
   }
 
   function updateFunction () {
-    console.log("UPDATING FUNCTION!!!")
-
     getZipFile(function (data) {
 
       var params = {
@@ -90,6 +88,7 @@ gulp.task('upload', function() {
       };
 
       lambda.updateFunctionCode(params, function(err, data) {
+        console.log("UPDATE CALLED");
         if (err) console.log("FUNCTION NOT UPDATED", err);
         else console.log('Function ' + functionName + ' has been updated.');
       });
@@ -100,7 +99,6 @@ gulp.task('upload', function() {
     fs.readFile(zipFile, function (err, data) {
           if (err) console.log(err);
           else {
-            console.log("DATA", data);
             next(data);
           }
     });
@@ -131,12 +129,4 @@ gulp.task('test-invoke', function() {
   }
 })
 
-gulp.task('deploy', function (callback) {
-  return runSequence(
-    ['js', 'node-mods'],
-    ['zip'],
-    ['upload'],
-    ['test-invoke'],
-    callback
-  );
-});
+gulp.task('deploy', ['js', 'node-mods', 'zip', 'upload', 'test-invoke']);
