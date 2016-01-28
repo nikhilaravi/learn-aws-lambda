@@ -120,7 +120,7 @@ gulp.task('test-invoke', function() {
   };
 
   lambda.getFunction({ FunctionName: functionName }, function(err, data) {
-    if (err) console.log("FUNCTION NOT FOUND");
+    if (err) console.log("FUNCTION NOT FOUND", err);
     else invokeFunction();
   });
 
