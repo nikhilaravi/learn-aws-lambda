@@ -125,7 +125,7 @@ gulp.task('test-invoke', function() {
   });
 
   function invokeFunction() {
-    lamda.invokeFunction(params, function(err, data) {
+    lambda.invokeFunction(params, function(err, data) {
       if (err) console.log(err, err.stack);
       else console.log(data);
     })
