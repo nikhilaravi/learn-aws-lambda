@@ -35,7 +35,7 @@ gulp.task('node-mods', function () {
  * Create an archive based on the dest folder.
  */
 gulp.task('zip', function () {
-  return gulp.src(['dist/**/*'])
+  return gulp.src(['dist/**/*', '!dist/package.json'])
     .pipe(zip(outputName))
     .pipe(gulp.dest('./'));
 });
@@ -126,7 +126,7 @@ gulp.task('test-invoke', function() {
 
 gulp.task('deploy', function (callback) {
   return runSequence(
-    ['js'],
+    ['js', 'node-mods'],
     ['zip'],
     ['upload'],
     ['test-invoke'],
