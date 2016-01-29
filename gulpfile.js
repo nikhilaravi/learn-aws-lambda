@@ -1,19 +1,14 @@
-//npm modules
-var AWS         = require('aws-sdk');
-var gulp        = require('gulp');
-var zip         = require('gulp-zip');
-var install     = require('gulp-install');
+var AWS = require('aws-sdk');
+var gulp = require('gulp');
+var zip = require('gulp-zip');
+var install = require('gulp-install');
 var runSequence = require('run-sequence');
-var fs          = require('fs');
-
-//local files
-var testEvent   = require('./lambda-testing/tests/data.json') || {};
 var packageJson = require('./package.json');
+var region = 'eu-west-1';
+var fs = require('fs');
 
-// constants
-var region      = 'us-east-1';
 var functionName = 'LambdaTest';
-var outputName = functionName + '.zip';
+var outputName = 'LambdaTest.zip';
 
 var IAMRole = 'arn:aws:iam::685330956565:role/lambda_basic_execution';
 var filesToPack = ['./lambda-testing/functions/LambdaTest.js'];
@@ -22,7 +17,7 @@ var filesToPack = ['./lambda-testing/functions/LambdaTest.js'];
  * Adds the project files to the archive folder.
  */
 gulp.task('js', function () {
-  return gulp.src(filesToPack)
+  return gulp.src(filesToPack, {base: './'})
     .pipe(gulp.dest('dist/'));
 });
 
@@ -40,7 +35,7 @@ gulp.task('node-mods', function () {
  * Create an archive based on the dest folder.
  */
 gulp.task('zip', function () {
-  return gulp.src(['dist/**/**'], {base: 'dist'})
+  return gulp.src(['dist/**/*'])
     .pipe(zip(outputName))
     .pipe(gulp.dest('./'));
 });
@@ -72,7 +67,6 @@ gulp.task('upload', function() {
       };
 
       lambda.createFunction (params, function (err, data) {
-        console.log("CREATE CALLED");
         if (err) console.error(err);
         else console.log('Function ' + functionName + ' has been created.');
       });
@@ -81,16 +75,15 @@ gulp.task('upload', function() {
   }
 
   function updateFunction () {
-    getZipFile(function (data) {
 
+    getZipFile(function (data) {
       var params = {
         FunctionName: functionName,
         ZipFile: data
       };
 
       lambda.updateFunctionCode(params, function(err, data) {
-        console.log("UPDATE CALLED");
-        if (err) console.log("FUNCTION NOT UPDATED", err);
+        if (err) console.error(err);
         else console.log('Function ' + functionName + ' has been updated.');
       });
     });
@@ -112,9 +105,9 @@ gulp.task('test-invoke', function() {
 
   var params = {
     FunctionName: functionName,
-    InvocationType: 'Event',
+    InvocationType: 'RequestResponse',
     LogType: 'Tail',
-    Payload: JSON.stringify(testEvent)
+    Payload: '{ "key1" : "name" }'
   };
 
   lambda.getFunction({ FunctionName: functionName }, function(err, data) {
@@ -130,11 +123,13 @@ gulp.task('test-invoke', function() {
   }
 })
 
+
 gulp.task('deploy', function (callback) {
   return runSequence(
     ['js', 'node-mods'],
     ['zip'],
     ['upload'],
+    ['test-invoke'],
     callback
   );
 });
