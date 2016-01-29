@@ -17,7 +17,7 @@ var filesToPack = ['./lambda-testing/functions/LambdaTest.js'];
  * Adds the project files to the archive folder.
  */
 gulp.task('js', function () {
-  return gulp.src(filesToPack, {base: './'})
+  return gulp.src(filesToPack, {base: './lambda-testing/functions'})
     .pipe(gulp.dest('dist/'));
 });
 
