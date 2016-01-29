@@ -126,7 +126,7 @@ gulp.task('test-invoke', function() {
 
 gulp.task('deploy', function (callback) {
   return runSequence(
-    ['js', 'node-mods'],
+    ['js'],
     ['zip'],
     ['upload'],
     ['test-invoke'],
